@@ -3,6 +3,7 @@ import time
 import datetime
 import subprocess
 from praytimes import PrayTimes
+from pathlib import Path
 
 # ===== CONFIG (FROM FIVEPRAYERS) =====
 LAT = 55.70941493357022
@@ -13,13 +14,14 @@ ASR_METHOD = 'Hanafi'
 FAJR_ANGLE = 18.5
 ISHA_ANGLE = 19
 
-ADHAN_FILE = "/adhan/mecca.mp3"
+BASE_DIR = Path(__file__).resolve().parent
+ADHAN_FILE = BASE_DIR / "adhan"/ "mecca.mp3"
 PRAYERS = ["fajr", "dhuhr", "asr", "maghrib", "isha"]
 # ====================================
 
 def play_adhan(prayer):
     print(f"🔊 Playing Adzan for {prayer.upper()}")
-    subprocess.run(["mpg123", "-q", ADHAN_FILE])
+    subprocess.run(["mpg123", "-o", "alsa", "-q", str(ADHAN_FILE)])
 
 
 def main():
