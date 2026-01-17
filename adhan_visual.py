@@ -23,13 +23,14 @@ ISHA_ANGLE = 15.1
 
 ADHAN_FILE = "/adhan/mecca.mp3"
 ADHAN_PRAYERS = ["fajr", "dhuhr", "asr", "maghrib", "isha"]
-DISPLAY_PRAYERS = ["fajr", "dhuhr", "asr", "maghrib", "isha"]
+DISPLAY_PRAYERS = ["fajr", "dhuhr", "asr", "maghrib", "isha", "sunrise"]
 PRAYER_LABELS = {
     "fajr": "Fajr",
     "dhuhr": "Dhuhr",
     "asr": "Asr",
     "maghrib": "Maghrib",
     "isha": "Isha",
+    "sunrise": "Sunrise",
 }
 MASJID_NAME = "Arkana's Family"
 # ====================================
@@ -210,7 +211,8 @@ class AdhanApp:
 
         self.rows = {}
         self.name_labels = {}
-        for i, p in enumerate(DISPLAY_PRAYERS, start=1):
+        row = 1
+        for p in DISPLAY_PRAYERS:
             name = tk.Label(
                 right,
                 text=PRAYER_LABELS[p],
@@ -225,8 +227,13 @@ class AdhanApp:
                 fg=WHITE,
                 bg=PANEL,
             )
-            name.grid(row=i, column=0, sticky="w", pady=4)
-            time_lbl.grid(row=i, column=1, sticky="e", pady=4, padx=(20, 0))
+            if p == "sunrise":
+                divider = tk.Frame(right, bg=MUTED, height=1)
+                divider.grid(row=row, column=0, columnspan=2, sticky="we", pady=(8, 6))
+                row += 1
+            name.grid(row=row, column=0, sticky="w", pady=4)
+            time_lbl.grid(row=row, column=1, sticky="e", pady=4, padx=(20, 0))
+            row += 1
             self.rows[p] = time_lbl
             self.name_labels[p] = name
 
